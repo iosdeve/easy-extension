@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        ">
+        <!-- 1.加载资源配置文件 -->
+        <context:property-placeholder location="classpath:jdbc.properties"/>
+        <!-- 2.配置数据源 -->
+        <!-- 
+        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        	<property name="driverClassName" value="${jdbc.driver}"></property>
+        	<property name="url" value="${jdbc.url}"></property>
+        	<property name="username" value="${jdbc.user}"></property>
+        	<property name="password" value="${jdbc.password}"></property>
+        </bean>
+         -->
+         <bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean"/>
+        
+        <!-- 3.配置SessionFactory -->
+        <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        	<property name="dataSource" ref="dataSource"></property>
+        	<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        	<property name="mapperLocations" value="classpath:com/xin/easyextension/*/domain/*Mapper.xml"></property>
+        	<property name="typeAliasesPackage" value="com.xin.easyextension.domain"></property>
+        </bean>
+        
+        <!-- 4.配置事务管理 -->
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        	<property name="dataSource" ref="dataSource"></property>
+        </bean>
+        
+         <!-- 5.配置事务模版 -->
+         <tx:advice id="txAdvice" transaction-manager="transactionManager">
+         	<tx:attributes>
+         		<tx:method name="get*" read-only="true"/>
+         		<tx:method name="query*" read-only="true"/>
+         		<tx:method name="list*" read-only="true"/>
+         		<tx:method name="*"/>
+         	</tx:attributes>
+         </tx:advice>
+         
+         <!-- 6.配置AOP切面 -->
+         <aop:config>
+         	<aop:pointcut expression="execution(* com.xin.easyextension..service.*Service.*(..))" id="pointcut"/>
+         	<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
+         </aop:config>
+         
+         <context:component-scan base-package="com.xin.easyextension"></context:component-scan>
+         <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+         	<property name="basePackage" value="com.xin.easyextension.mapper"></property>
+         </bean>
+</beans>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xin.easyextension.mapper.AppMapper" >
+  <resultMap id="BaseResultMap" type="com.xin.easyextension.domain.App" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="actionClass" property="actionClass" jdbcType="VARCHAR" />
+    <result column="appPath" property="appPath" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="DATE" />
+    <result column="lastUpdated" property="lastUpdated" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from app
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xin.easyextension.domain.App" useGeneratedKeys="true" keyProperty="id" >
+    insert into app (appName, actionClass, appPath, 
+      userid, created, lastUpdated
+      )
+    values (#{appName,jdbcType=VARCHAR}, #{actionClass,jdbcType=VARCHAR}, #{appPath,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=INTEGER}, #{created,jdbcType=DATE}, #{lastUpdated,jdbcType=DATE}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.xin.easyextension.domain.App" >
+    update app
+    set appName = #{appName,jdbcType=VARCHAR},
+      actionClass = #{actionClass,jdbcType=VARCHAR},
+      appPath = #{appPath,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER},
+      created = #{created,jdbcType=DATE},
+      lastUpdated = #{lastUpdated,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, appName, actionClass, appPath, userid, created, lastUpdated
+    from app
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, appName, actionClass, appPath, userid, created, lastUpdated
+    from app
+  </select>
+</mapper>
