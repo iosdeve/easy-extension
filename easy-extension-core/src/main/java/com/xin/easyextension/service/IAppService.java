@@ -1,6 +1,11 @@
 package com.xin.easyextension.service;
 
+import java.io.IOException;
+import java.util.List;
+
+import com.xin.easyextension.common.MultipartFileParam;
 import com.xin.easyextension.domain.App;
+import com.xin.easyextension.domain.LibFile;
 
 /**
 * @author Xin Chen
@@ -10,8 +15,15 @@ import com.xin.easyextension.domain.App;
 * @Description
 */
 public interface IAppService {
-	public int save(App app);
-	public int update(App app);
+	public int save(App app) throws Exception;
+	public int update(App app)throws Exception;
 	public int delete(Integer id);
 	public App get(Integer id);
+	
+	public List<App> queryAllApps();
+	
+	public LibFile uploadLibFile(MultipartFileParam uploadParam) throws IOException ;
+	public List<String> findExecuteClassFile(String jarFilePath, String targetInterface);
+	
+	public void runApp(Integer id);
 }

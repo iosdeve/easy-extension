@@ -4,41 +4,54 @@
   <resultMap id="BaseResultMap" type="com.xin.easyextension.domain.App" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="appDesc" property="appDesc" jdbcType="VARCHAR" />
     <result column="actionClass" property="actionClass" jdbcType="VARCHAR" />
     <result column="appPath" property="appPath" jdbcType="VARCHAR" />
     <result column="userid" property="userid" jdbcType="INTEGER" />
-    <result column="created" property="created" jdbcType="DATE" />
-    <result column="lastUpdated" property="lastUpdated" jdbcType="DATE" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="lastUpdated" property="lastUpdated" jdbcType="TIMESTAMP" />
+    <collection property="libs" column="id" ofType="LibFile" select="com.xin.easyextension.mapper.LibFileMapper.selectByAppId"></collection>
+  </resultMap>
+  <resultMap id="BaseResultMap2" type="com.xin.easyextension.domain.App" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="appDesc" property="appDesc" jdbcType="VARCHAR" />
+    <result column="actionClass" property="actionClass" jdbcType="VARCHAR" />
+    <result column="appPath" property="appPath" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="lastUpdated" property="lastUpdated" jdbcType="TIMESTAMP" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from app
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.xin.easyextension.domain.App" useGeneratedKeys="true" keyProperty="id" >
-    insert into app (appName, actionClass, appPath, 
+    insert into app (appName,appDesc, actionClass, appPath, 
       userid, created, lastUpdated
       )
-    values (#{appName,jdbcType=VARCHAR}, #{actionClass,jdbcType=VARCHAR}, #{appPath,jdbcType=VARCHAR}, 
-      #{userid,jdbcType=INTEGER}, #{created,jdbcType=DATE}, #{lastUpdated,jdbcType=DATE}
+    values (#{appName,jdbcType=VARCHAR},#{appDesc,jdbcType=VARCHAR}, #{actionClass,jdbcType=VARCHAR}, #{appPath,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{lastUpdated,jdbcType=TIMESTAMP}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.xin.easyextension.domain.App" >
     update app
     set appName = #{appName,jdbcType=VARCHAR},
+      appDesc = #{appDesc,jdbcType=VARCHAR},
       actionClass = #{actionClass,jdbcType=VARCHAR},
       appPath = #{appPath,jdbcType=VARCHAR},
       userid = #{userid,jdbcType=INTEGER},
-      created = #{created,jdbcType=DATE},
-      lastUpdated = #{lastUpdated,jdbcType=DATE}
+      created = #{created,jdbcType=TIMESTAMP},
+      lastUpdated = #{lastUpdated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, appName, actionClass, appPath, userid, created, lastUpdated
+    select id, appName, appDesc, actionClass, appPath, userid, created, lastUpdated
     from app
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, appName, actionClass, appPath, userid, created, lastUpdated
+  <select id="selectAll" resultMap="BaseResultMap2" >
+    select id, appName, appDesc, actionClass, appPath, userid, created, lastUpdated
     from app
   </select>
 </mapper>

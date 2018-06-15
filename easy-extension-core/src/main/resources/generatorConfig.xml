@@ -81,7 +81,7 @@ connectionURL="jdbc:mysql://localhost/easyextension" userId="root" password="123
 				value=""/> -->
 		</javaClientGenerator>
 
-		<table tableName="app" domainObjectName="App">
+		<table tableName="nodetable" domainObjectName="NodeTable">
 			<!-- 参考 javaModelGenerator 的 constructorBased属性 -->
 			<property name="constructorBased" value="false" />
 			<property name="useActualColumnNames" value="true"/>

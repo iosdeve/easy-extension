@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-md-12">
+    <ol class="breadcrumb" style="background:white">
+      <li><a [routerLink]="['/apps']">App</a></li>
+      <li><a [routerLink]="['/apps']">程序列表</a></li>
+    </ol>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10">
+    <div class="container-fluid">
+      <div class="media download-item" *ngFor="let app of apps">
+        <div class="media-left">
+          <a target="_blank" href="http://www.clantrip.com/uploadfile/docs/tmpl/tmpl_app-form.doc">
+            <img class="media-object" src="http://www.clantrip.com/static/images/minetype/doc.svg">
+          </a>
+        </div>
+        <div class="media-body">
+          <a [routerLink]="['/app',app.id]" class="download-title"><h4 class="media-heading">{{app.appName}}</h4></a>
+          <p>{{app.appDesc}}</p>
+          <div class="download-lable">
+            <label>
+              <span>Action Class: </span>{{app.actionClass}}
+            </label>
+            <label>
+              <span>创建时间: </span>{{app.created}}
+            </label>
+            <label>
+              <span>路径: </span>{{app.appPath}}
+            </label>
+          </div>
+          <a (click)="deleteApp(app)" class="btn btn-sm btn-default btn1">删除</a>
+          <a (click)="runApp(app)" class="btn btn-sm btn-default btn2">运行</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

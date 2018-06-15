@@ -1,5 +1,12 @@
 package com.xin.easyextension.core;
 
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,5 +50,25 @@ public class TestExecuteExtension {
 		Assert.assertEquals(targetFileName+ "interface count should be 2", 2, clsInfo[0].getInterfaceName().length);
 		System.out.println(clsInfo[0]);
 		
+	}
+	
+	@Test
+	public void testFindspecificClass() {
+		List<String> interfaceCls=new ArrayList<String>();
+		JARDecompressionTool.decompressClassFile("extensions/app1/ext.jar", new IDecompressFileHandler() {
+			
+			@Override
+			public void decompressFile(String fileName, ClassInfo classInfo) {
+				if(classInfo!=null) {
+					String [] interfaces=classInfo.getInterfaceName();
+					for(String itf : interfaces) {
+						interfaceCls.add(itf);
+					}
+				}
+			}
+		});
+		
+		assertThat("interface count greater than 0",interfaceCls.size(), greaterThan(0));
+		Assert.assertThat("No any class instance of IExtension",interfaceCls, Matchers.hasItem("com/xin/easyextension/core/IExtension"));
 	}
 }

@@ -1,0 +1,16 @@
+body {
+  font: 14px/1.5 "Verdana", "微软雅黑", YaHei, tahoma, arial, Hiragino Sans GB, "宋体"
+}
+
+
+.mainContent{
+	margin-top:70px;
+}
+
+
+#footer{
+	background: #eee;
+	border-top:1px solid #ccc;
+	text-align:center;
+	padding:20px;
+}

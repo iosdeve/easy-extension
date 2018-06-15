@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xin.easyextension.mapper.NodeTableMapper" >
+  <resultMap id="BaseResultMap" type="com.xin.easyextension.domain.NodeTable" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parentId" property="parentId" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="referId" property="referId" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="lastUpdated" property="lastUpdated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from nodetable
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByReferId" parameterType="java.lang.Integer" >
+    delete from nodetable
+    where referid in (select id from files where files.appId=#{id,jdbcType=INTEGER})
+  </delete>
+  <insert id="insert" parameterType="com.xin.easyextension.domain.NodeTable" useGeneratedKeys="true" keyProperty="id" >
+    insert into nodetable (parentId, description, name, 
+      referId, created, lastUpdated
+      )
+    values (#{parentId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{referId,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{lastUpdated,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.xin.easyextension.domain.NodeTable" >
+    update nodetable
+    set parentId = #{parentId,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      referId = #{referId,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      lastUpdated = #{lastUpdated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, parentId, description, name, referId, created, lastUpdated
+    from nodetable
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, parentId, description, name, referId, created, lastUpdated
+    from nodetable
+  </select>
+</mapper>

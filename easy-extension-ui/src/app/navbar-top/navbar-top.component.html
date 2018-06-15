@@ -1,0 +1,60 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="#" style="padding:0;" class="navbar-brand">
+        <img alt="" src="/image/logo.png" width="35%">
+      </a>
+      <button class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="nav navbar-nav navbar-left">
+        <li [class.active]="navStatus[0]"><a [routerLink]="['apps']"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        <li [class.active]="navStatus[1]"><a [routerLink]="['apps']"><span class="glyphicon glyphicon-th-list"></span> App</a></li>
+        <li [class.active]="navStatus[2]"><a href="#"><span class="glyphicon glyphicon-book"></span> Help</a></li>
+        <li [class.active]="navStatus[3]"><a href="#"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <button type="submit" class="btn btn-primary navbar-btn" (click)="createApp()">新建程序</button>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="modal fade" id="newAppDialog">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h4 class="modal-title">新建一个应用</h4>
+    </div>
+    <form class="modal-body form-horizontal" role="form">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">程序名称</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="realname"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">描述</label>
+        <div class="col-sm-10">
+          <textarea class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">JAR包</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="address"/>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" name="ok">确定</button>
+      <button type="button" class="btn btn-link" data-dismiss="modal">关闭</button>
+    </div>
+  </div>
+</div>
+</div>

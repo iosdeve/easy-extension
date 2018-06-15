@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xin.easyextension.mapper.LibFileMapper" >
+  <resultMap id="BaseResultMap" type="com.xin.easyextension.domain.LibFile" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="appId" property="appId" jdbcType="INTEGER" />
+    <result column="fileName" property="fileName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="filesize" property="filesize" jdbcType="INTEGER" />
+    <result column="filePath" property="filePath" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="lastUpdated" property="lastUpdated" jdbcType="TIMESTAMP" />
+    <collection property="executeClasses" column="id" ofType="NodeTable" columnPrefix="nt_">
+		<id column="id" property="id"/>
+		<result column="parentId" property="parentId"/>
+		<result column="referId" property="referId"/>
+		<result column="name" property="name"/>
+	</collection>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from files
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByAppId" parameterType="java.lang.Integer" >
+    delete from files
+    where appid = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xin.easyextension.domain.LibFile" useGeneratedKeys="true" keyProperty="id" >
+    insert into files (appId, fileName, name, 
+      filesize, filePath, userid, 
+      created, lastUpdated)
+    values (#{appId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{filesize,jdbcType=INTEGER}, #{filePath,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+      #{created,jdbcType=TIMESTAMP}, #{lastUpdated,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.xin.easyextension.domain.LibFile" >
+    update files
+    set appId = #{appId,jdbcType=INTEGER},
+      fileName = #{fileName,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      filesize = #{filesize,jdbcType=INTEGER},
+      filePath = #{filePath,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      lastUpdated = #{lastUpdated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select files.id, files.appId, files.fileName, files.name, files.filesize, files.filePath, files.userid, files.created, files.lastUpdated,
+    nt.name nt_name,
+    nt.id nt_id,
+    nt.parentId nt_parentId,
+    nt.referId nt_referId
+    from files left join nodetable nt
+    on(nt.referId=files.id)
+    where files.id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAppId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select files.id, files.appId, files.fileName, files.name, files.filesize, files.filePath, files.userid, files.created, files.lastUpdated,
+    nt.name nt_name,
+    nt.id nt_id,
+    nt.parentId nt_parentId,
+    nt.referId nt_referId
+    from files left join nodetable nt
+    on(nt.referId=files.id)
+    where files.appId = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, appId, fileName, name, filesize, filePath, userid, created, lastUpdated
+    from files
+  </select>
+</mapper>

@@ -26,6 +26,10 @@ public class JARDecompressionTool {
                 JarEntry je = (JarEntry) e.nextElement();
                 if(compressFileHandler!=null) {
                 	String fileName=je.getName();
+                	boolean isClsFile=fileName.endsWith("class");
+                	if(isClsFile==false) {
+                		continue;
+                	}
                 	InputStream in = jf.getInputStream(je);
                 	ClassFile classFile = ClassReader.read(in);
         	        ConstantPool constantPool = new ConstantPool(classFile.constantPoolCount.getValue());
